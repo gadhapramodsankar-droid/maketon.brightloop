@@ -1,12 +1,13 @@
-import { loginUser } from '../actions';
+import { requestPasswordReset, loginUser } from '../actions';
 import { Lock, Mail, Layers } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 interface LoginPageProps {
     searchParams: Promise<{ error?: string; success?: string }>;
 }
 
-export default async function LoginPage({ searchParams }: LoginPageProps) {
+async function LoginContent({ searchParams }: LoginPageProps) {
     const resolvedParams = await searchParams;
 
     return (
@@ -86,5 +87,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
             </div>
         </div>
+    );
+}
+
+export default function LoginPage(props: LoginPageProps) {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-sm">Loading...</div>}>
+            <LoginContent {...props} />
+        </Suspense>
     );
 }
