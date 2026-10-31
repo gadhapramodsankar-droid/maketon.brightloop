@@ -16,7 +16,7 @@ Judges can explore both Customer and Administrator permission flows immediately:
 
 | Role | Email | Password | Access Capabilities |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `gadhapramodsankar@gmail.com` | *(your set password)* | Inventory/item management, billing oversight, system audit |
+| **Administrator** | `admin@brightloop.io` | *JudgePass123!* | Inventory/item management, billing oversight, system audit |
 | **Customer** | *(Self-register on site)* | *(User defined)* | Browse product catalog, manage subscriptions, checkout, view invoices |
 
 > **Note:** Any evaluator can also instantly register a fresh personal account directly via the `/register` page.
