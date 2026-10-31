@@ -500,7 +500,6 @@ export async function checkoutCustomerCart(formData: FormData) {
         data: {
             invoiceNumber,
             customerId: userId,
-         
             status: 'CONFIRMED',
             issueDate: now,
             dueDate,
