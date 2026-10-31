@@ -1,12 +1,13 @@
 import { requestPasswordReset } from '../actions';
 import { Mail, ArrowLeft, KeyRound } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 interface ForgotPasswordProps {
     searchParams: Promise<{ error?: string; success?: string }>;
 }
 
-export default async function ForgotPasswordPage({ searchParams }: ForgotPasswordProps) {
+async function ForgotPasswordContent({ searchParams }: ForgotPasswordProps) {
     const resolved = await searchParams;
 
     return (
@@ -62,5 +63,13 @@ export default async function ForgotPasswordPage({ searchParams }: ForgotPasswor
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ForgotPasswordPage(props: ForgotPasswordProps) {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-sm">Loading...</div>}>
+            <ForgotPasswordContent {...props} />
+        </Suspense>
     );
 }
