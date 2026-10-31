@@ -1,12 +1,13 @@
 import { registerCustomer } from '../actions';
 import { UserPlus, Lock, Mail, User, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 interface RegisterPageProps {
   searchParams: Promise<{ error?: string }>;
 }
 
-export default async function RegisterPage({ searchParams }: RegisterPageProps) {
+async function RegisterContent({ searchParams }: RegisterPageProps) {
   const resolvedParams = await searchParams;
   const error = resolvedParams.error;
 
@@ -106,4 +107,12 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
       </div>
     </div>
   );
+}
+
+export default function RegisterPage(props: RegisterPageProps) {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-sm">Loading...</div>}>
+      <RegisterContent {...props} />
+    </Suspense>
+  ); 
 }
