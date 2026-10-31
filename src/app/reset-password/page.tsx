@@ -1,7 +1,7 @@
 import { resetPasswordWithToken } from '../actions';
 import { Lock, ShieldCheck, KeyRound } from 'lucide-react';
 import Link from 'next/link';
-
+export const dynamic = 'force-dynamic';
 interface ResetPasswordProps {
     searchParams: Promise<{ token?: string; error?: string }>;
 }
@@ -28,7 +28,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
                         <KeyRound className="w-6 h-6" />
                     </div>
                     <h1 className="text-2xl font-black text-white">Create New Password</h1>
-                    <p className="text-xs text-slate-400">8 characters, uppercase, lowercase & special character</p>
+                    <p className="text-xs text-slate-400">8&gt characters, uppercase, lowercase & special character</p>
                 </div>
 
                 {resolved.error && (
