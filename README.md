@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brightloop ⚡
 
-## Getting Started
+> Modern multi-tier customer portal with real-time billing, catalog ordering, and automated invoice lifecycle management.
 
-First, run the development server:
+---
+
+## 🌐 Live Production Deployment
+
+- **Live Application:** [https://maketon-brightloop-36dr-66kbcwrpc-pixel-f85e.vercel.app/](https://maketon-brightloop-36dr-66kbcwrpc-pixel-f85e.vercel.app/)
+
+---
+
+## 🔑 Demo & Evaluation Credentials
+
+Judges can explore both Customer and Administrator permission flows immediately:
+
+| Role | Email | Password | Access Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `gadhapramodsankar@gmail.com` | *(your set password)* | Inventory/item management, billing oversight, system audit |
+| **Customer** | *(Self-register on site)* | *(User defined)* | Browse product catalog, manage subscriptions, checkout, view invoices |
+
+> **Note:** Any evaluator can also instantly register a fresh personal account directly via the `/register` page.
+
+---
+
+## 🚀 Key Features & Capabilities
+
+- **Role-Based Access Control (RBAC):** Distinct workflows for customers (purchasing, billing tracking) and administrators (catalog management, global invoice monitoring).
+- **Automated Invoicing & Subscriptions:** Dynamic checkout flow converting product carts into generated invoice records and recurring tier management.
+- **Resilient Cloud Persistence:** Zero-data-loss architecture backed by an autoscaling serverless PostgreSQL cluster.
+- **Edge-Optimized Prerendering:** Next.js route segment caching combined with React `<Suspense>` boundary streaming for sub-second UI interactions.
+
+---
+
+## 🛠️ Architecture & Tech Stack
+
+- **Framework:** Next.js (App Router, Server Actions, Turbopack)
+- **Database Engine:** Neon Serverless PostgreSQL
+- **Object-Relational Mapping (ORM):** Prisma ORM
+- **UI & Styling:** Tailwind CSS, Lucide React
+- **Cloud Infrastructure & Hosting:** Vercel Edge Network
+
+---
+
+## 💻 Local Setup & Reproduction
+
+To run and inspect the repository locally:
 
 ```bash
+# 1. Clone the repository
+git clone [https://github.com/gadhapramodsankar-droid/maketon.brightloop.git](https://github.com/gadhapramodsankar-droid/maketon.brightloop.git)
+cd maketon.brightloop
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure environment variables (create a .env file)
+# DATABASE_URL="your_postgresql_connection_string"
+
+# 4. Sync database schema & run the local dev server
+npx prisma db push
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
