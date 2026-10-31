@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                   String                 @id @default(uuid())
+  email                String                 @unique
+  passwordHash         String
+  name                 String
+  role                 String                 @default("CUSTOMER") // ADMIN, STAFF, CUSTOMER
+  createdAt            DateTime               @default(now())
+  subscriptions        Subscription[]
+  invoices             Invoice[]
+  passwordResetTokens  PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id              String             @id @default(uuid())
+  name            String
+  type            String             @default("Software Subscription")
+  salesPrice      Float
+  costPrice       Float              @default(0.0)
+  inStock         Boolean            @default(true)
+  imageUrl        String?
+  discountPercent Float              @default(0.0)
+  notes           String?
+  variants        ProductVariant[]
+  subItems        SubscriptionItem[]
+}
+
+model ProductVariant {
+  id         String   @id @default(uuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  attribute  String
+  value      String
+  priceExtra Float    @default(0.0)
+}
+
+model Plan {
+  id            String         @id @default(uuid())
+  name          String
+  interval      String         @default("MONTHLY")
+  price         Float          @default(0.0)
+  minQuantity   Int            @default(1)
+  availableFrom DateTime       @default(now())
+  availableTo   DateTime?
+  autoClose     Boolean        @default(false)
+  canPause      Boolean        @default(true)
+  subscriptions Subscription[]
+}
+
+model Discount {
+  id            String         @id @default(uuid())
+  code          String         @unique
+  isPercentage  Boolean        @default(true)
+  value         Float
+  minPurchase   Float          @default(0.0)
+  minQuantity   Int            @default(1)
+  maxUses       Int            @default(100)
+  usedCount     Int            @default(0)
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id           String             @id @default(uuid())
+  subNumber    String             @unique
+  customerId   String
+  customer     User               @relation(fields: [customerId], references: [id])
+  planId       String
+  plan         Plan               @relation(fields: [planId], references: [id])
+  status       String             @default("DRAFT")
+  startDate    DateTime           @default(now())
+  expiryDate   DateTime?
+  paymentTerms String             @default("Net 15")
+  discountId   String?
+  discount     Discount?          @relation(fields: [discountId], references: [id])
+  taxRate      Float              @default(18.0)
+  items        SubscriptionItem[]
+  invoices     Invoice[]
+  createdAt    DateTime           @default(now())
+}
+
+model SubscriptionItem {
+  id             String       @id @default(uuid())
+  subscriptionId String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  productId      String
+  product        Product      @relation(fields: [productId], references: [id])
+  variantName    String?
+  unitPrice      Float
+  quantity       Int          @default(1)
+  taxRate        Float        @default(18.0)
+  subtotal       Float
+}
+
+model Invoice {
+  id             String       @id @default(uuid())
+  invoiceNumber  String       @unique
+  subscriptionId String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  customerId     String
+  customer       User         @relation(fields: [customerId], references: [id])
+  status         String       @default("DRAFT")
+  issueDate      DateTime     @default(now())
+  dueDate        DateTime
+  subtotal       Float
+  discountAmount Float        @default(0.0)
+  taxAmount      Float
+  totalAmount    Float
+  paidAmount     Float        @default(0.0)
+  payments       Payment[]
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  method    String
+  amount    Float
+  date      DateTime @default(now())
+  notes     String?
+}
