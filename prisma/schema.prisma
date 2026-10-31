@@ -111,8 +111,8 @@ model SubscriptionItem {
 model Invoice {
   id             String       @id @default(uuid())
   invoiceNumber  String       @unique
-  subscriptionId String
-  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
   customerId     String
   customer       User         @relation(fields: [customerId], references: [id])
   status         String       @default("DRAFT")
